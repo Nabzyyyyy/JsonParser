@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "Parse.hpp"
+#include <chrono>
 
 std::string JsonParser::print(Value* val) { // print function called from the helper function
 
@@ -285,9 +286,18 @@ Value * JsonParser::Parse_Object (std::string::iterator &f, std::string::iterato
 	return obj;
 }
 
+typedef std::chrono::high_resolution_clock Clock;
+
+
+    
+    
+
 int main() {
 // std::stringstream
 	// parse helper
+
+auto t1 = Clock::now();
+    
 std::string strIn; // 
 std::stringstream strStream; // Json
 
@@ -302,6 +312,12 @@ j.Parse(strStream.str()); // adds strings to the string stream
 std::cout << "Weight of Json document: " << j.getWeight() << std::endl; // otputs the weight of the json document
 
 j.print(); // pretty print the json doc
+
+auto t2 = Clock::now();
+
+std::cout << std::endl << "This parse took " 
+              << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+              << " nanoseconds." << std::endl;
 
 return 0;
 }
